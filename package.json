@@ -1,0 +1,11 @@
+{
+  "name": "cloud-crm-data-recovery-plugin",
+  "version": "1.0.0",
+  "dependencies": {
+    "csv": "^5.1.1",
+    "express": "^4.16.4",
+    "serverless": "^1.35.1",
+    "serverless-http": "^1.8.0",
+    "sort-object": "^3.0.2"
+  }
+}
