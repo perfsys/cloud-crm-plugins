@@ -36,17 +36,22 @@ provider:
             - '/*'
 
 functions:
+
   plugin-1:
     handler: index.handler
     events:
-      - http:
-          method: get
-          path: '/'
-          cors: true
+#      - http:
+#          method: get
+#          path: '/'
+#          cors: true
+      - schedule:
+          description: Performing scheduled logging
+          rate: rate(8 hours)
 
 resources:
   Resources:
     Bucket:
       Type: AWS::S3::Bucket
+      DeletionPolicy: Retain
       Properties:
         BucketName: universal-storage
