@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-  //contacts template
+  // contacts template
   group_id: '_0_group_id',
   name: '_1_name_normalized',
   create_dt: '_2_creation_date',
@@ -20,14 +20,14 @@ module.exports = Object.freeze({
   status_id: '_17_status_normalized',
   status_name: '_18_status_name',
 
-  //groups extention
+  // groups extention
   id: '_19_id',
   statuses: '_20_statuses',
 
-  //updates extention
+  // updates extention
   text: '_21_text',
 
-  //companies extention
+  // companies extention
   address1: '_22_address1',
   address2: '_23_address2',
   extendedTitle: '_24_extended_title',

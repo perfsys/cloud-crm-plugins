@@ -40,10 +40,6 @@ functions:
   plugin-1:
     handler: index.handler
     events:
-#      - http:
-#          method: get
-#          path: '/'
-#          cors: true
       - schedule:
           description: Performing scheduled logging
           rate: rate(8 hours)
