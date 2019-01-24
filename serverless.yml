@@ -2,6 +2,7 @@ service: cloud-crm-data-recovery-plugin
 
 provider:
   name: aws
+  profile: perfsys
   runtime: nodejs8.10
   stage: dev
   region: eu-west-1
@@ -49,5 +50,3 @@ resources:
     Bucket:
       Type: AWS::S3::Bucket
       DeletionPolicy: Retain
-      Properties:
-        BucketName: universal-storage
