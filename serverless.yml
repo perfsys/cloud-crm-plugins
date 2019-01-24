@@ -50,4 +50,4 @@ resources:
       Type: AWS::S3::Bucket
       DeletionPolicy: Retain
       Properties:
-        BucketName: universal-storage
+        BucketName: cloud-crm-logs-bucket

@@ -55,6 +55,7 @@ const csvToS3 = function (csvFile, bucketName) {
 module.exports.handler = async function (event, context, callback) {
   try {
     let csvTable = []
+
     csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_CONTACTS_TABLE_ARN.split('/')[1])))
     csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_GROUPS_TABLE_ARN.split('/')[1])))
     csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_UPDATES_TABLE_ARN.split('/')[1])))
