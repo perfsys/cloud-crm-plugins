@@ -50,8 +50,5 @@ resources:
     Bucket:
       Type: AWS::S3::Bucket
       DeletionPolicy: Retain
-<<<<<<< HEAD
       Properties:
         BucketName: cloud-crm-logs-bucket
-=======
->>>>>>> origin/master
