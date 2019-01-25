@@ -17,9 +17,10 @@ const getTableContent = function (tableName) {
     })
   })
 }
-const csvTableFormatter = function (data) {
+const csvTableFormatter = function (dataType, data) {
   let csvTable = []
   data.forEach(function (item) {
+    item.type = dataType
     keysOrder.forEach(function (prop) {
       if (!(prop in item)) item[prop] = null
     })
@@ -40,9 +41,11 @@ const csvStringify = function (table) {
 }
 const csvToS3 = function (csvFile, bucketName) {
   return new Promise(function (resolve, reject) {
+    let now = new Date()
+    now = ' ' + (now.getDate() < 10 ? '0' : '') + now.getDate() + '.' + (now.getMonth() < 10 ? '0' : '') + (now.getMonth() + 1)  + ' ' + (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes()
     let params = {
       Bucket: bucketName,
-      Key: csvFile.name + '.csv',
+      Key: csvFile.name + now  + '.csv',
       Body: csvFile.text
     }
     S3.upload(params, function (err, data) {
@@ -56,12 +59,12 @@ module.exports.handler = async function (event, context, callback) {
   try {
     let csvTable = []
 
-    csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_CONTACTS_TABLE_ARN.split('/')[1])))
-    csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_GROUPS_TABLE_ARN.split('/')[1])))
-    csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_UPDATES_TABLE_ARN.split('/')[1])))
-    csvTable = csvTable.concat(csvTableFormatter(await getTableContent(process.env.CRM_COMPANIES_TABLE_ARN.split('/')[1])))
+    csvTable = csvTable.concat(csvTableFormatter('contact', await getTableContent(process.env.CRM_CONTACTS_TABLE_ARN.split('/')[1])))
+    csvTable = csvTable.concat(csvTableFormatter('group', await getTableContent(process.env.CRM_GROUPS_TABLE_ARN.split('/')[1])))
+    csvTable = csvTable.concat(csvTableFormatter('update', await getTableContent(process.env.CRM_UPDATES_TABLE_ARN.split('/')[1])))
+    csvTable = csvTable.concat(csvTableFormatter('company', await getTableContent(process.env.CRM_COMPANIES_TABLE_ARN.split('/')[1])))
 
-    await csvToS3({ name: 'cloud-crm-data-backup', text: await csvStringify(csvTable) }, process.env.UNIVERSAL_STORAGE_ARN.split(':::')[1])
+    await csvToS3({ name: 'cloud-crm-data-backup', text: await csvStringify(csvTable) }, process.env.PLUGIN_BUCKET_ARN.split(':::')[1])
   } catch (err) {
     console.log('Error: ' + JSON.stringify(err))
   }

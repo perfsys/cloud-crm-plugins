@@ -3,6 +3,7 @@ service: cloud-crm-data-recovery-plugin
 provider:
   name: aws
   profile: perfsys
+#  profile: personal
   runtime: nodejs8.10
   stage: dev
   region: eu-west-1
@@ -11,7 +12,7 @@ provider:
     CRM_UPDATES_TABLE_ARN: ${cf:perfsys-cloud-crm-api-dev.UpdatesTable}
     CRM_GROUPS_TABLE_ARN: ${cf:perfsys-cloud-crm-api-dev.GroupsTable}
     CRM_COMPANIES_TABLE_ARN: ${cf:perfsys-cloud-crm-api-dev.CompaniesTable}
-    UNIVERSAL_STORAGE_ARN:
+    PLUGIN_BUCKET_ARN:
       Fn::GetAtt:
         - Bucket
         - Arn
@@ -44,11 +45,10 @@ functions:
       - schedule:
           description: Performing scheduled logging
           rate: rate(8 hours)
+#          rate: rate(2 minutes)
 
 resources:
   Resources:
     Bucket:
       Type: AWS::S3::Bucket
       DeletionPolicy: Retain
-      Properties:
-        BucketName: cloud-crm-logs-bucket
